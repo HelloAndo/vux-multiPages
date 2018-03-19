@@ -4,6 +4,8 @@ const config = require('../config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const pkg = require('../package.json')
 
+const fs = require('fs')
+
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
     ? config.build.assetsSubDirectory
@@ -95,4 +97,23 @@ exports.createNotifierCallback = function () {
       icon: path.join(__dirname, 'logo.png')
     })
   }
+}
+
+exports.getFilesName = function (dir) {
+  var files = fs.readdirSync(dir)
+  return files
+}
+
+exports.getWebsites = function (dir) {
+  return this.getFilesName(dir)
+}
+
+exports.getFiles = function (dir, extense) {
+  var files = this.getFilesName(dir)
+  files = files.filter(function (file) {
+    var arr = /\.([^\.]+)$/.exec(file)
+    return arr && arr[1] === extense
+  })
+  // console.log('output names of files', files)
+  return files
 }

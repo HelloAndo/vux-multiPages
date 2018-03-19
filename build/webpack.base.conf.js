@@ -82,3 +82,15 @@ let webpackConfig = {
 module.exports = vuxLoader.merge(webpackConfig, {
   plugins: ['vux-ui', 'progress-bar', 'duplicate-style']
 })
+
+const _pagesDir = './pages/'
+
+var _websites = {}
+var _websitesKey = utils.getWebsites(_pagesDir)
+_websitesKey.forEach(function (key) {
+  _websites[key] = utils.getFiles(_pagesDir + key, 'js')
+})
+Object.assign(webpackConfig.entry, _websites)
+// console.log('s', s)
+console.log(webpackConfig.entry)
+

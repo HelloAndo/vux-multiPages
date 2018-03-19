@@ -1,6 +1,7 @@
 'use strict'
 const utils = require('./utils')
 const webpack = require('webpack')
+// const utils = require('./utils')
 const config = require('../config')
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
@@ -50,6 +51,19 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     }),
   ]
 })
+
+const _pagesDir = './pages/'
+var _websitesKey = utils.getWebsites(_pagesDir)
+_websitesKey.forEach(function (key) {
+  // _websites[key] = utils.getFiles(_pagesDir + key, 'js')
+
+  devWebpackConfig.plugins.push(new HtmlWebpackPlugin({
+    filename: key + '.html',
+    template: _pagesDir + key + '/index.html',
+    inject: true
+  }))
+})
+
 
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port
